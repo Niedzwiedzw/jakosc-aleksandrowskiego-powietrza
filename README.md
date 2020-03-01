@@ -1,5 +1,9 @@
 # jakosc-powietrza-aleksandrow
 
+Dane na temat jakości powietrza w Aleksandrowie Kujawskim.
+
+preview: https://jakosc-aleksandrowskiego-powietrza.netlify.com/#/
+
 ## Project setup
 ```
 yarn install
