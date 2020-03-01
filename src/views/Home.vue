@@ -14,7 +14,7 @@
 <script lang="ts">
 import {defineComponent} from '@vue/composition-api';
 import LineChart from "@/views/components/LineChart.vue";
-import {AnyKindOfDictionary, entries, Entry, keyByAndOmit} from '@/data';
+import {AnyKindOfDictionary, entries, dailyAvg, Entry, keyByAndOmit} from '@/data';
 import {groupBy, map, entries as _entries} from 'lodash';
 import {buildMultiLineChartData, ChartData} from "@/chart-helpers";
 
@@ -31,7 +31,7 @@ export default defineComponent({
     name: 'Home',
     props: {},
     setup() {
-        const byMonth = _entries(groupBy(entries, (e) => `${e.time.month() + 1}/${e.time.year()}`));
+        const byMonth = _entries(groupBy(dailyAvg, (e) => `${e.time.month() + 1}/${e.time.year()}`));
         const toDataChunk = (e: Entry) => ({
             'czas': e.timePretty,
             // 'PM1': e.pm1,
@@ -66,7 +66,6 @@ export default defineComponent({
     }
 
     .chart {
-      @include height(.5);
     }
   }
 </style>
