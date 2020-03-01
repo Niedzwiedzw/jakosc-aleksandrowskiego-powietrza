@@ -1,0 +1,18 @@
+@import "_styles/colors";
+@import "_styles/variables";
+@import "_styles/animations";
+@import "_styles/boxes";
+
+* {
+  font-family: 'Poppins', monospace;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw;
+  height: 100vh;
+}
+
+
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700,900&display=swap');
