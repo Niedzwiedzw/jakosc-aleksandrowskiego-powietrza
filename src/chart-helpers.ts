@@ -2,9 +2,10 @@ import {
     values, zip, take,
     first, isNil,
     map, keys, cloneDeep,
-    reverse,
+    reverse, filter,
 } from 'lodash';
 import moment from 'moment';
+import {Dictionary, Entry} from "@/data";
 
 moment.locale('pl');
 
@@ -73,3 +74,20 @@ export function buildMultiLineChartData(data: ChartData, colours = MORE_COLOURS)
         ),
     });
 }
+export interface ChartFormattedEntry {
+    czas: string;
+    'PM 10 (% normy)': number | null;
+    'PM 2.5 (% normy)': number | null;
+}
+
+export function aboveAverageCount(entries: Dictionary<ChartFormattedEntry>): number {
+    return filter(values(entries), (e) => (e['PM 10 (% normy)'] ?? 0) > 100 || (e['PM 2.5 (% normy)'] ?? 0) > 100).length
+}
+
+export function periodSummary(entries: Dictionary<ChartFormattedEntry>): string {
+    const [count, all] = [aboveAverageCount(entries), values(entries).length];
+    return count > 0
+        ? ` - w ${count} spośród ${all} zmierzonych dni, normy prawdopodobnie zostały przekroczone (${(count/all)*100}% miesiąca)`
+        : ''
+}
+

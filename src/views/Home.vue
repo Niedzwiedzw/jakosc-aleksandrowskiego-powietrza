@@ -5,7 +5,7 @@
         v-for="[month, chartData] of chartDataByMonth"
         :key="month"
         :data="chartData"
-        :title="month"
+        :title="`${month} ${periodSummary(chartData)}`"
         class="chart"
     />
   </div>
@@ -15,14 +15,9 @@
 import {defineComponent} from '@vue/composition-api';
 import LineChart from "@/views/components/LineChart.vue";
 import {AnyKindOfDictionary, entries, dailyAvg, Entry, keyByAndOmit} from '@/data';
-import {groupBy, map, entries as _entries} from 'lodash';
-import {buildMultiLineChartData, ChartData} from "@/chart-helpers";
+import {groupBy, map, entries as _entries, values} from 'lodash';
+import {buildMultiLineChartData, ChartData, ChartFormattedEntry, periodSummary} from "@/chart-helpers";
 
-interface ChartFormattedEntry {
-    czas: string;
-    'PM 10 (% normy)': number | null;
-    'PM 2.5 (% normy)': number | null;
-}
 
 export default defineComponent({
     components: {
@@ -42,6 +37,7 @@ export default defineComponent({
         const chartDataByMonth = map(dataByMonth, ([month, data]) => [month, keyByAndOmit(data as unknown as AnyKindOfDictionary[], 'czas')]) as [string, Partial<ChartFormattedEntry>[]];
         return {
             chartDataByMonth,
+            periodSummary,
         };
     },
 })

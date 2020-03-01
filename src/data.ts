@@ -69,7 +69,7 @@ export class Entry {
     }
 
     public get timePretty(): string {
-        return this.time.format('LL');
+        return `${this.time.format('LL')} (${this.time.format('dddd')})`;
     }
 
     public get pm10norm(): number | null {
