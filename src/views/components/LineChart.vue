@@ -1,6 +1,6 @@
 <template>
   <div class="LineChart">
-    <canvas width="1200" height="400" id="data-canvas"></canvas>
+    <canvas width="1200" height="400" :id="title"></canvas>
   </div>
 </template>
 
@@ -12,14 +12,18 @@ import {buildMultiLineChartData, ChartData} from "@/chart-helpers";
 export default defineComponent({
     name: "LineChart",
     props: {
-      data: {
-          type: Object as () => ChartData,
-          required: true,
-      },
+        data: {
+            type: Object as () => ChartData,
+            required: true,
+        },
+        title: {
+            type: String,
+            required: true,
+        }
     },
     setup(props) {
         onMounted(() => {
-            const canvas = document.getElementById('data-canvas') as HTMLCanvasElement;  // TODO: this won't work for multiple canvas
+            const canvas = document.getElementById(props.title) as HTMLCanvasElement;
             new Chart(canvas, {
                 type: 'line',
                 data: buildMultiLineChartData(props.data),
@@ -28,8 +32,14 @@ export default defineComponent({
                         yAxes: [{
                             ticks: {
                                 beginAtZero: true,
+                                suggestedMin: 0,
+                                suggestedMax: 600,
                             }
                         }]
+                    },
+                    title: {
+                        display: true,
+                        text: props.title,
                     }
                 }
             });
